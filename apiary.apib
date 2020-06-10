@@ -1,80 +1,6440 @@
-FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
-
-# Customers
-
-Polls is a simple API allowing consumers to view polls and vote in them.
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+swagger: '2.0'
+info:
+  description: |-
+    Api to configure agreements and generate agreements services to cloudbanco
+     The Customers API uses the authorization_code grant type, for authorization details
+  version: '1.0'
+  title: Cloudbanco Api Agreements
+host: 'localhost:9992'
+basePath: /
+tags:
+  - name: api-cloudbanco-agreements
+    description: Api Cloudbanco Agreements
+  - name: api-cloudbanco-agreements-params
+    description: API Cloudbanco Agreements Params
+  - name: api-cloudbanco-enterprise-customer
+    description: Api Cloudbanco Enterprise Customer
+paths:
+  /v1/agreements:
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to get all Agreements
+      operationId: findAllAgreementsUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to Create new Agreement Header
+      operationId: createAgreementHeaderUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreement
+          description: agreement
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to Update Agreement Header
+      operationId: updateAgreementHeaderUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreement
+          description: agreement
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/agreement-comission:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to create Agreement Comission Information
+      operationId: saveAgreementComissionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementComission
+          description: agreementComission
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to update Agreement Comission Information
+      operationId: updateAgreementComissionUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementComission
+          description: agreementComission
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-comission/by-agreement/{agreementId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Comission Information by agreement id
+      operationId: findAgreementComissionByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agreementId
+          in: path
+          description: agreementId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-comission/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Comission Information by id
+      operationId: findAgreementComissionByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementComission'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/agreement-event:
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find all agreement type
+      operationId: findAllAgreementEventEnumUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CatalogDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/agreement-notification:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to create Agreement Notification '
+      operationId: saveAgreementNotificationUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementNotification
+          description: agreementNotification
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to update Agreement Notification '
+      operationId: updateAgreementNotificationUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementNotification
+          description: agreementNotification
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-notification/by-agreement/{agreementId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Notification  by agreement id
+      operationId: findAgreementNotificationByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agreementId
+          in: path
+          description: agreementId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-notification/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Notification  by id
+      operationId: findAgreementNotificationByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementNotification'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/agreement-security:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to create Agreement Security Information
+      operationId: saveAgreementSecurityUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementSecurity
+          description: agreementSecurity
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to update Agreement Security Information
+      operationId: updateAgreementSecurityUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementSecurity
+          description: agreementSecurity
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-security/by-agreement/{agreementId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Security Information by agreement id
+      operationId: findAgreementSecurityByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agreementId
+          in: path
+          description: agreementId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-security/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Security Information by id
+      operationId: findAgreementSecurityByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementSecurity'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/agreement-tributary-data:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to create Agreement TributaryData '
+      operationId: saveAgreementTributaryDataUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementTributaryData
+          description: agreementTributaryData
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to update Agreement TributaryData '
+      operationId: updateAgreementTributaryDataUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementTributaryData
+          description: agreementTributaryData
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-tributary-data/by-agreement/{agreementId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement TributaryData  by agreement id
+      operationId: findAgreementTributaryDataByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agreementId
+          in: path
+          description: agreementId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-tributary-data/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement TributaryData  by id
+      operationId: findAgreementTributaryDataByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreementTributaryData'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/agreement-tx-information:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to create Agreement Tx Information
+      operationId: saveAgreementTxInformationUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementTxInformation
+          description: agreementTxInformation
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementTxInformation'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTxInformation'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to update Agreement Tx Information
+      operationId: updateAgreementTxInformationUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementTxInformation
+          description: agreementTxInformation
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementTxInformation'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTxInformation'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-tx-information/agreement-transaction-method/{agreementTxInformationId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Transaction Methods by agreement tx information Id
+      operationId: findAllTransactionMethodsByAgreementTxInformationIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agreementTxInformationId
+          in: path
+          description: agreementTxInformationId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgreementTransactionMethod'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-tx-information/by-agreement/agreement-transaction-method/{agreementId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Transaction Methods by agreement Id
+      operationId: findAllTransactionMethodsByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agreementId
+          in: path
+          description: agreementId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgreementTransactionMethod'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-tx-information/by-agreement/{agreementId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Tx Information by agreement id Id
+      operationId: findAgreementTxInformationByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agreementId
+          in: path
+          description: agreementId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTxInformation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/agreement-tx-information/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement Tx Information by Id
+      operationId: findAgreementTxInformationByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementTxInformation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/by-companies:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: Retrieve companies detail with banking services details
+      operationId: findCAgreementWithEnterpriseCustomerIdUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: enterpriseCustomerIds
+          description: enterpriseCustomerIds
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ResponseEnterpriseAgreements'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/by-criteria:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to get all Agreements by criteria
+      operationId: findAllAgreementsByCriteriaUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: criteria
+          description: criteria
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementDto'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/channel-information:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to create Agreement Channels and Payment Authorized information
+      operationId: saveAgreementChannelInformationSectionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreement
+          description: agreement
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to update Agreement Channels and Payment Authorized information
+      operationId: updateAgreementChannelInformationSectionUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreement
+          description: agreement
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/documents:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to Create new DocumentServiceAgreements '
+      operationId: createCDocumentForServiceAgreementUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: documentForServiceAgreement
+          description: documentForServiceAgreement
+          required: true
+          schema:
+            $ref: '#/definitions/CDocumentForServiceAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CDocumentForServiceAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to Update DocumentServiceAgreements '
+      operationId: updateCDocumentForServiceAgreementUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: documentForServiceAgreement
+          description: documentForServiceAgreement
+          required: true
+          schema:
+            $ref: '#/definitions/CDocumentForServiceAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CDocumentForServiceAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/documents-by-service/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to get all DocumentServiceAgreements by serviceId
+      operationId: findAllCDocumentForServiceAgreementUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CDocumentForServiceAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/documents-variables:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to Create new CDocumentVariables '
+      operationId: createCDocumentVariablesUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: documentVariables
+          description: documentVariables
+          required: true
+          schema:
+            $ref: '#/definitions/CDocumentVariables'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CDocumentVariables'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: 'API to Update CDocumentVariables '
+      operationId: updateCDocumentVariablesUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: documentVariables
+          description: documentVariables
+          required: true
+          schema:
+            $ref: '#/definitions/CDocumentVariables'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CDocumentVariables'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/documents-variables-by-document/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to get all CDocumentVariables by documentId
+      operationId: findAllCDocumentVariablesByDocumentIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CDocumentVariables'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/documents-variables/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find CDocumentVariables by id
+      operationId: findCDocumentVariablesByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CDocumentVariables'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CDocumentVariables'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to delete CDocumentVariables by Id
+      operationId: deleteCDocumentVariablesByIdUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '202':
+          description: Service deleted
+        '204':
+          description: No Content
+        '400':
+          description: No Service with specified id exists
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  '/v1/agreements/documents/download-file/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to get a File TTemplate related to a Documents by id
+      operationId: getFileByDocumentIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/Resource'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/Resource'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: The resource you were trying to reach is not found
+      deprecated: false
+  /v1/agreements/documents/load-file:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: >-
+        Upload Word Template for Documents for Service Agreements and associated
+        metadata
+      operationId: uploadTemplteDocumentFileUsingPOST
+      consumes:
+        - multipart/form-data
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: parts
+          description: parts
+          required: true
+          schema:
+            $ref: '#/definitions/Part'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/DocumentFileResponse'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: The resource you were trying to reach is not found
+      deprecated: false
+  '/v1/agreements/documents/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find DocumentServiceAgreements by id
+      operationId: findCDocumentForServiceAgreementByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CDocumentForServiceAgreement'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CDocumentForServiceAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to delete DocumentServiceAgreements by Id
+      operationId: deleteDocumentServiceAgreementsByIdUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+        '202':
+          description: Service deleted
+        '204':
+          description: No Content
+        '400':
+          description: No Service with specified id exists
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/agreements/duplicate:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to duplicate new Agreement
+      operationId: duplicateAgreementUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreement
+          description: agreement
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/general-information:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to create Agreement general information
+      operationId: saveAgreementGeneralInformationUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementInformation
+          description: agreementInformation
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementInformation'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementInformation'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to update Agreement general information
+      operationId: updateAgreementGeneralInformationUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementInformation
+          description: agreementInformation
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementInformation'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementInformation'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/general-information/by-agreement/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement general information by agreement id
+      operationId: findByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementInformation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/general-information/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement general information by its id
+      operationId: findAgreementInformationByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementInformation'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/order-approvals:
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find all Order Approvals
+      operationId: findAllOrderApprovalDtoUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/COrderApprovalDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to save a new Order Approval
+      operationId: saveOrderApprovalUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: orderApproval
+          description: orderApproval
+          required: true
+          schema:
+            $ref: '#/definitions/COrderApproval'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/COrderApprovalDto'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to update new Order Approval
+      operationId: updateOrderApprovalUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: orderApproval
+          description: orderApproval
+          required: true
+          schema:
+            $ref: '#/definitions/COrderApproval'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/COrderApprovalDto'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/order-approvals/by-criteria:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: >-
+        API to find all Order Approvals by criteria the criteria is an object of
+        type COrderApprovalDto
+      operationId: findAllOrderApprovalDtoByCriteriaUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: criteria
+          description: criteria
+          required: true
+          schema:
+            $ref: '#/definitions/COrderApprovalDto'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/COrderApprovalDto'
+        '201':
+          description: Created
+        '204':
+          description: Operation success and returned no data
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/COrderApprovalDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/order-approvals/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Order Approval by Id
+      operationId: findOrderApprobalByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/COrderApprovalDto'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/COrderApprovalDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to delete a order-approvals by Id
+      operationId: deleteCOrderApprovalByIdUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '202':
+          description: Service deleted
+        '204':
+          description: No Content
+        '400':
+          description: No Service with specified id exists
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/agreements/orientation-type:
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find all orientation type
+      operationId: findAllOrientationTypeEnumUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CatalogDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/accounting-acct/by-bank/{bankCode}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets all accounting accounts related to Bank
+      operationId: retrieveAccountingAcctListByBankUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: bankCode
+          in: path
+          description: bankCode
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAccountingAccount'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/accounting-acct/by-criteria:
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: >-
+        API to find all accounting accounts using a Criteria, the criteria is a
+        CAccountingAccount instance
+      operationId: retrieveAccountingAcctByCriteriaUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: criteria
+          description: criteria
+          required: true
+          schema:
+            $ref: '#/definitions/CAccountingAccount_1'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAccountingAccount'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/agency:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Agencies data
+      operationId: findAllAgenciesUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new Agency
+      operationId: createAgencyUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agency
+          description: agency
+          required: true
+          schema:
+            $ref: '#/definitions/CAgency'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgency'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Update new Agency
+      operationId: updateAgencyUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agency
+          description: agency
+          required: true
+          schema:
+            $ref: '#/definitions/CAgency'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgency'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/agency/by-branch/{branch}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Agencies by Branch
+      operationId: findAgenciesByBranchUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: branch
+          in: path
+          description: branch
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/agency/by-name/{agencyName}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Agencies by Name
+      operationId: findAgenciesByNameUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: agencyName
+          in: path
+          description: agencyName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/agency/his/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets Agency History by code
+      operationId: findAgenciesAudByCodeUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/agency/integration:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Agencies data from CORE
+      operationId: retrieveAgencyListFromCoreUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/agency/integration/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find an Agency from CORE
+      operationId: retrieveAgencyFromCoreUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgency'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/agency/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find an Agency by primary key
+      operationId: retrieveAgencyByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgency'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete an Agency by primary key
+      operationId: deleteAgencyUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CAgency'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgency'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/bank:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Banks data
+      operationId: findAllBanksUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CBank'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new Bank
+      operationId: createBankUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: bank
+          description: bank
+          required: true
+          schema:
+            $ref: '#/definitions/CBank_1'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CBank'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/bank/by-name/{bankName}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Banks by Name
+      operationId: findBanksByNameUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: bankName
+          in: path
+          description: bankName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CBank'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/bank/integration:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Banks data from CORE
+      operationId: retrieveBankListFromCoreUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CBank'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/bank/integration/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Bank from CORE
+      operationId: retrieveBankFromCoreUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CBank'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CBank'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/bank/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Bank by primary key
+      operationId: retrieveBankByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CBank'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CBank'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete a Bank by primary key
+      operationId: deleteBankUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CBank'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CBank'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/country:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Countries data
+      operationId: findAllCountriesUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CCountry'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new Country
+      operationId: createCountryUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: country
+          description: country
+          required: true
+          schema:
+            $ref: '#/definitions/CCountry_1'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CCountry'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/country-net:
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new Network associated to Country
+      operationId: createCountryNetworkUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: countryNetwork
+          description: countryNetwork
+          required: true
+          schema:
+            $ref: '#/definitions/CCountryNetwork_1'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CCountryNetwork'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/country-net/by-country/{countryId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Networks by Country data
+      operationId: findNetworksByCountryUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: countryId
+          in: path
+          description: countryId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CCountryNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/country-net/integration/{countryId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Networks associated to Country data from CORE
+      operationId: retrieveCountryNetworkListFromCoreUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: countryId
+          in: path
+          description: countryId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CCountryNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/country-net/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Network associated to Country by primary key
+      operationId: retrieveCountryNetworkByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CCountryNetwork'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CCountryNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete a Network associated to Country by primary key
+      operationId: deleteCountryNetworkUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CCountryNetwork'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CCountryNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/country/integration:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Countries data from CORE
+      operationId: retrieveCountryListFromCoreUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CCountry'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/country/integration/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Country from CORE
+      operationId: retrieveCountryDetailFromCoreUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CCountry'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CCountry'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/country/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Country by primary key
+      operationId: retrieveCountryByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CCountry'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CCountry'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete a Country by primary key
+      operationId: deleteCountryUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CCountry'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CCountry'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/enterprise-customer:
+    get:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Gets All Enterprise Customers data
+      operationId: getAllUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CEnterpriseCustomer'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Creates new Enterprise Customer
+      operationId: createEnterpriseCustomerUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: enterprise
+          description: enterprise
+          required: true
+          schema:
+            $ref: '#/definitions/CEnterpriseCustomer'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CEnterpriseCustomer'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Updates Enterprise Customer data
+      operationId: updateEnterpriseCustomerUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: enterprise
+          description: enterprise
+          required: true
+          schema:
+            $ref: '#/definitions/CEnterpriseCustomer'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CEnterpriseCustomer'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/enterprise-customer/accounts/{idType}/{id}':
+    get:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Gets All accounts of Enterprise Customers
+      operationId: getCustomerAccountsUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - name: idType
+          in: path
+          description: idType
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ResponseEnterpriseAccountServiceAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/enterprise-customer/by-criteria:
+    post:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: getAllByCriteria
+      operationId: getAllByCriteriaUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: criteria
+          description: criteria
+          required: true
+          schema:
+            $ref: '#/definitions/CEnterpriseCustomer'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CEnterpriseCustomer'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/enterprise-customer/by-executive/{executive}':
+    get:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: getAllByExecutive
+      operationId: getAllByExecutiveUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: executive
+          in: path
+          description: executive
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CEnterpriseCustomer'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/enterprise-customer/economic-group:
+    get:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Gets All Economin Groups  data
+      operationId: getAllEconomicGroupsUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CEconomicGroup'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Creates a new Economic Group
+      operationId: createEconomicGroupUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: economicGroup
+          description: economicGroup
+          required: true
+          schema:
+            $ref: '#/definitions/CEconomicGroup'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CEconomicGroup'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Updates a Economic Group
+      operationId: updateEconomicGroupUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: economicGroup
+          description: economicGroup
+          required: true
+          schema:
+            $ref: '#/definitions/CEconomicGroup'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CEconomicGroup'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/enterprise-customer/economic-group/{economicGroupId}':
+    get:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Finds a Economic Group's information
+      operationId: findEconomicGroupByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: economicGroupId
+          in: path
+          description: economicGroupId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CEconomicGroup'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CEconomicGroup'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Deletes a Economic Group
+      operationId: deleteEconomicGroupUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: economicGroupId
+          in: path
+          description: economicGroupId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+        '204':
+          description: No Content
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/enterprise-customer/principal:
+    put:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: setAsPrincipal
+      operationId: setAsPrincipalUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: principalEnterpriseRequestDto
+          description: principalEnterpriseRequestDto
+          required: true
+          schema:
+            $ref: '#/definitions/PrincipalEnterpriseRequestDto'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/enterprise-customer/profiles/{idType}/{id}':
+    get:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Finds Enterprise Customer Information
+      operationId: retrieveEnterpriseCustomerUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - name: idType
+          in: path
+          description: idType
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CEnterpriseCustomer'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/enterprise-customer/{economicGroupId}':
+    get:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Gets All Enterprise Customers by Economic group
+      operationId: getEnterPriseCustomersByEconomicGroupUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: economicGroupId
+          in: path
+          description: economicGroupId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CEnterpriseCustomer'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/enterprise-customer/{enterpriseCustomerId}':
+    delete:
+      tags:
+        - api-cloudbanco-enterprise-customer
+      summary: Deletes a Enterprise customer
+      operationId: deleteEnterpriseCustomerUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: enterpriseCustomerId
+          in: path
+          description: enterpriseCustomerId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Operation success and returned no data
+        '204':
+          description: No Content
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/executive:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Executives data
+      operationId: findAllUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CExecutive'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new Executive
+      operationId: createExecutiveUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: executive
+          description: executive
+          required: true
+          schema:
+            $ref: '#/definitions/CExecutive'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/executive/by-personal-id/{personalId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find an Executive by personal Identification
+      operationId: retrieveExecutiveByPersonalIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: personalId
+          in: path
+          description: personalId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/executive/integration/{personalId}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find an Executive from CORE
+      operationId: retrieveExecutiveFromCoreUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: personalId
+          in: path
+          description: personalId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/executive/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find an Executive by primary key
+      operationId: retrieveExecutiveByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete an Executive by personal Identification
+      operationId: deleteExecutiveUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CExecutive'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/file-format:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All File Formats data
+      operationId: findAllFileFormatsUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CFileFormat'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new File Format
+      operationId: createFileFormatUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: fileFormat
+          description: fileFormat
+          required: true
+          schema:
+            $ref: '#/definitions/CFileFormat'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CFileFormat'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/file-format/by-criteria:
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: >-
+        API to find all File format using a Criteria, the criteria is a
+        CFileFormat instance
+      operationId: findAllByCriteriaUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: criteria
+          description: criteria
+          required: true
+          schema:
+            $ref: '#/definitions/CFileFormat'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CFileFormat'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/file-format/by-name/{fileName}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All File Formats by Name
+      operationId: findFileFormatByNameUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: fileName
+          in: path
+          description: fileName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CFileFormat'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/file-format/his/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets File Format History by code
+      operationId: findFileFormatAudByCodeUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CFileFormat'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/file-format/status/{status}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All File Formats data by status
+      operationId: findAllFileFormatsByStatusUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: status
+          in: path
+          description: status
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CFileFormat'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/file-format/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a File Format by primary key
+      operationId: retrieveFileFormatByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CFileFormat'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CFileFormat'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete a File Format by primary key
+      operationId: deleteFileFormatUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CFileFormat'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CFileFormat'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/network:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Networks data
+      operationId: findAllNetworksUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new Network
+      operationId: createNetworkUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: network
+          description: network
+          required: true
+          schema:
+            $ref: '#/definitions/CNetwork_1'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CNetwork'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/params/network/integration:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Networks data from CORE
+      operationId: retrieveNetworkListFromCoreUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/network/integration/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Network from CORE
+      operationId: retrieveNetworkFromCoreUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CNetwork'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/network/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Network by primary key
+      operationId: retrieveNetworkByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CNetwork'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete a Network by primary key
+      operationId: deleteNetworkUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CNetwork'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CNetwork'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/params/trx-method:
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Transaction Method data
+      operationId: findAllTransactionMethodsUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CTransactionMethod'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to Create new Transaction Method
+      operationId: createTransactionMethodUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: transactionMethod
+          description: transactionMethod
+          required: true
+          schema:
+            $ref: '#/definitions/CTransactionMethod'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CTransactionMethod'
+        '201':
+          description: Created
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/trx-method/by-desc/{methodDesc}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Transaction Methods by Desc
+      operationId: findTransactionMethodByDescUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: methodDesc
+          in: path
+          description: methodDesc
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CTransactionMethod'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/trx-method/by-srv/{serviceOrientation}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets All Transaction Methods by service orientation
+      operationId: findTransactionMethodBySrvOrientationUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: serviceOrientation
+          in: path
+          description: serviceOrientation
+          required: true
+          type: string
+          enum:
+            - CO
+            - PA
+            - CON
+            - NOT
+            - TRANS
+            - SERV
+            - PS
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CTransactionMethod'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/trx-method/his/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: Gets Agency History by code
+      operationId: findTransactionMethodAudByCodeUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CTransactionMethod'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/params/trx-method/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to find a Transaction Method by primary key
+      operationId: retrieveTransactionMethodByPkUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CTransactionMethod'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CTransactionMethod'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements-params
+      summary: API to delete a Transaction Method by primary key
+      operationId: deleteTransactionMethodUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CTransactionMethod'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CTransactionMethod'
+        '401':
+          description: You are not authorized to view the resource
+        '403':
+          description: Accessing the resource you were trying to reach is forbidden
+      deprecated: false
+  /v1/agreements/processing-information:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to create Agreement processing information
+      operationId: saveAgreementProcessingInfoUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementProcessing
+          description: agreementProcessing
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementProcessing'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementProcessing'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to update Agreement processing information
+      operationId: updateAgreementProcessingInfoUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: agreementProcessing
+          description: agreementProcessing
+          required: true
+          schema:
+            $ref: '#/definitions/CAgreementProcessing'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementProcessing'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/processing-information/by-agreement/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement processing information by agreement id
+      operationId: findAgreementProcessingInfoByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementProcessing'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/processing-information/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement processing information by its id
+      operationId: findAgreementProcessingInfoByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreementProcessing'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/response-order-approvals/by-agreement/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Basic Approval Information by Agreement id
+      operationId: findResponseOrderApprovalByAgreementIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/COrderApprovalDto'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/COrderApprovalDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/response-order-approvals/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Basic Approval Information by id
+      operationId: findResponseOrderApprovalByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/COrderApprovalDto'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/COrderApprovalDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/revisions/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find history of agreement
+      operationId: findAgreementRevisionsByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgreementHistoryDto'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CAgreementHistoryDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/services:
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find all a Service for Agreements
+      operationId: findAllUsingGET_1
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CServiceForAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to Create new Service for Agreements
+      operationId: createServiceUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: serviceForAgreement
+          description: serviceForAgreement
+          required: true
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to Update a Service for Agreements
+      operationId: updateServiceUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: serviceForAgreement
+          description: serviceForAgreement
+          required: true
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/agreements/services/by-criteria:
+    post:
+      tags:
+        - api-cloudbanco-agreements
+      summary: >-
+        API to find all Services for Agreements using a Criteria, the criteria
+        is a CServiceForAgreement instance
+      operationId: findAllByCriteriaUsingPOST_1
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: criteria
+          description: criteria
+          required: true
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CServiceForAgreement'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/services/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find a Service for Agreements by Id
+      operationId: findByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to delete a Service for Agreements by Id
+      operationId: deleteServiceUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+        '202':
+          description: Service deleted
+          schema:
+            $ref: '#/definitions/CServiceForAgreement'
+        '204':
+          description: No Content
+        '400':
+          description: No Service with specified id exists
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/agreements/type-services:
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find all a Service type Agreements
+      operationId: findAllServiceTypeUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CServiceForAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/agreements/{id}':
+    get:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to find Agreement data by id
+      operationId: findAgreementByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+          schema:
+            $ref: '#/definitions/CAgreement'
+        '204':
+          description: Operation success and returned no data
+          schema:
+            $ref: '#/definitions/CAgreement'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - api-cloudbanco-agreements
+      summary: API to delete an Agreement data by id
+      operationId: deleteAgreementByIdUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successfully retrieved
+        '204':
+          description: Operation success and returned no data
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+definitions:
+  Audit:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdOn:
+        type: string
+        format: date-time
+      updatedBy:
+        type: string
+      updatedOn:
+        type: string
+        format: date-time
+    title: Audit
+  CAccountingAccount:
+    type: object
+    properties:
+      accountNumber:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      bank:
+        $ref: '#/definitions/CBank'
+      bankCode:
+        type: integer
+        format: int32
+      channel:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      currency:
+        type: string
+      id:
+        type: integer
+        format: int32
+      networkCode:
+        type: string
+    title: CAccountingAccount
+  CAccountingAccount_1:
+    type: object
+    properties:
+      accountNumber:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      bank:
+        $ref: '#/definitions/CBank_1'
+      bankCode:
+        type: integer
+        format: int32
+      channel:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      currency:
+        type: string
+      id:
+        type: integer
+        format: int32
+      networkCode:
+        type: string
+    title: CAccountingAccount_1
+  CAgency:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      branch:
+        type: string
+        description: Branch list to which the agency belongs
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      email:
+        type: string
+        description: Notification emails separated with comma
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+        description: Agency name
+      office:
+        type: string
+        description: Office name
+      scheduleControl:
+        type: boolean
+        description: Agency has schedule control
+      scheduleId:
+        type: string
+        description: Reference to schedule table
+      status:
+        type: string
+        description: Agency status
+    title: CAgency
+  CAgreement:
+    type: object
+    required:
+      - id
+    properties:
+      active:
+        type: boolean
+      agreementChannelComplete:
+        type: boolean
+      agreementChannels:
+        type: array
+        items:
+          $ref: '#/definitions/CAgreementChannel'
+      agreementComission:
+        $ref: '#/definitions/CAgreementComission'
+      agreementFileVariables:
+        type: array
+        items:
+          $ref: '#/definitions/CAgreementFileVariable'
+      agreementInformation:
+        $ref: '#/definitions/CAgreementInformation'
+      agreementNotification:
+        $ref: '#/definitions/CAgreementNotification'
+      agreementProcessing:
+        $ref: '#/definitions/CAgreementProcessing'
+      agreementSecurity:
+        $ref: '#/definitions/CAgreementSecurity'
+      agreementTributaryData:
+        $ref: '#/definitions/CAgreementTributaryData'
+      agreementTxInformation:
+        $ref: '#/definitions/CAgreementTxInformation'
+      allowPaymentAuthorizedInput:
+        type: boolean
+      audit:
+        $ref: '#/definitions/Audit'
+      automaticRenovation:
+        type: boolean
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      enterpriseCustomer:
+        $ref: '#/definitions/CEnterpriseCustomer'
+      event:
+        type: string
+        description: Evento del contrato.
+        enum:
+          - CREATION
+          - UPDATE
+          - ENABLED
+          - DISABLED
+          - INFO
+          - PROCESSING
+          - CHANNEL
+          - PAYMETHOD
+          - COMISSION
+          - SECURITY
+          - NOTIFICATION
+          - TRIBUTARY_DATA
+          - INFO_EDIT
+          - PROCESSING_EDIT
+          - CHANNEL_EDIT
+          - PAYMETHOD_EDIT
+          - COMISSION_EDIT
+          - SECURITY_EDIT
+          - NOTIFICATION_EDIT
+          - TRIBUTARY_DATA_EDIT
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      notPrioritazed:
+        type: boolean
+      prioritizedByClient:
+        type: boolean
+      prioritizedByCreationDate:
+        type: boolean
+      prioritizedByExpirationDate:
+        type: boolean
+      service:
+        $ref: '#/definitions/CServiceForAgreement'
+      validSince:
+        type: string
+        format: date-time
+      validUntil:
+        type: string
+        format: date-time
+    title: CAgreement
+  CAgreementChannel:
+    type: object
+    required:
+      - id
+    properties:
+      active:
+        type: boolean
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      audit:
+        $ref: '#/definitions/Audit'
+      channelCode:
+        type: string
+      channelName:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+    title: CAgreementChannel
+  CAgreementComission:
+    type: object
+    required:
+      - backupAccount
+      - beneficiaryCharge
+      - chargeFrequency
+      - comissionChargeAccount
+      - comissionId
+      - id
+      - payerCharge
+    properties:
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      audit:
+        $ref: '#/definitions/Audit'
+      backupAccount:
+        type: string
+        description: cuenta backup
+      beneficiaryCharge:
+        type: integer
+        format: int32
+        description: cobro al beneficiario
+      beneficiaryConcept:
+        type: string
+        description: concepto al beneficiario
+      chargeFrequency:
+        type: string
+        description: id de la frecuencia de cobro
+      comissionChargeAccount:
+        type: string
+        description: cuenta de comission cobro
+      comissionId:
+        type: string
+        description: id del codigo de comision
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      coverShipmentCharges:
+        type: string
+        description: catalogo cubre gastos envio
+      discountType:
+        type: string
+        description: tipo de descuento codigo
+      discountValue:
+        type: number
+        description: valor descuento
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      payerCharge:
+        type: integer
+        format: int32
+        description: cobro al ordenante
+      payerConcept:
+        type: string
+        description: concepto al ordenante
+      retryCharge:
+        type: boolean
+      sectionComplete:
+        type: boolean
+      successfulEventCharge:
+        type: boolean
+      unsuccesfulEventCharge:
+        type: boolean
+      validSince:
+        type: string
+        format: date-time
+        description: valido desde
+      validUntil:
+        type: string
+        format: date-time
+        description: valido hasta
+    title: CAgreementComission
+  CAgreementDto:
+    type: object
+    properties:
+      active:
+        type: boolean
+      automaticRenovation:
+        type: boolean
+      enterpriseCustomer:
+        $ref: '#/definitions/CEnterpriseCustomer'
+      id:
+        type: integer
+        format: int64
+      service:
+        $ref: '#/definitions/CServiceForAgreement'
+      validSince:
+        type: string
+        format: date-time
+      validUntil:
+        type: string
+        format: date-time
+    title: CAgreementDto
+  CAgreementFileVariable:
+    type: object
+    required:
+      - id
+    properties:
+      active:
+        type: boolean
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      fieldCodeId:
+        type: string
+        description: field codeId to fieldFormat
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+    title: CAgreementFileVariable
+  CAgreementHistoryDto:
+    type: object
+    properties:
+      agreementEventEnum:
+        type: string
+        enum:
+          - CREATION
+          - UPDATE
+          - ENABLED
+          - DISABLED
+          - INFO
+          - PROCESSING
+          - CHANNEL
+          - PAYMETHOD
+          - COMISSION
+          - SECURITY
+          - NOTIFICATION
+          - TRIBUTARY_DATA
+          - INFO_EDIT
+          - PROCESSING_EDIT
+          - CHANNEL_EDIT
+          - PAYMETHOD_EDIT
+          - COMISSION_EDIT
+          - SECURITY_EDIT
+          - NOTIFICATION_EDIT
+          - TRIBUTARY_DATA_EDIT
+      date:
+        type: string
+        format: date-time
+      user:
+        type: string
+    title: CAgreementHistoryDto
+  CAgreementInformation:
+    type: object
+    required:
+      - id
+    properties:
+      advancedOptionClientConcept:
+        type: boolean
+      advancedOptionClientConceptValue:
+        type: string
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      agreementProducts:
+        type: array
+        items:
+          $ref: '#/definitions/CAgreementProduct'
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      id:
+        type: integer
+        format: int32
+        description: Primary key
+      mixedWithVariablesConcept:
+        type: boolean
+      mixedWithVariablesConceptValue:
+        type: string
+      sectionComplete:
+        type: boolean
+      serviceConcept:
+        type: boolean
+      specificConcept:
+        type: boolean
+      specificConceptValue:
+        type: string
+    title: CAgreementInformation
+  CAgreementNotification:
+    type: object
+    required:
+      - id
+    properties:
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      alwaysNotify:
+        type: boolean
+      alwaysNotifyValue:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      beneficiaryBNotify:
+        type: boolean
+      clientAdvancedOptionBNotify:
+        type: boolean
+      comissionReport:
+        type: boolean
+      comissionSendFrequency:
+        type: string
+      companyAdminRolNotify:
+        type: boolean
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      customTemplate:
+        type: boolean
+      customTemplateAutoReport:
+        type: boolean
+      customTemplateAutoReportValue:
+        type: string
+      customTemplateBNotify:
+        type: boolean
+      customTemplateBNotifyValue:
+        type: string
+      customTemplateName:
+        type: string
+      genericTemplate:
+        type: boolean
+      genericTemplateAutoReport:
+        type: boolean
+      genericTemplateBNotify:
+        type: boolean
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      mailNotificationBeneficiary:
+        type: boolean
+      mailNotify:
+        type: boolean
+      movementsReport:
+        type: boolean
+      movementsSendFrequency:
+        type: string
+      operatorRolNotify:
+        type: boolean
+      ordersReport:
+        type: boolean
+      ordersSendFrequency:
+        type: string
+      sectionComplete:
+        type: boolean
+      sendToMail:
+        type: boolean
+      sendToMailValue:
+        type: string
+      smsNotificationBeneficiary:
+        type: boolean
+      smsNotify:
+        type: boolean
+    title: CAgreementNotification
+  CAgreementProcessing:
+    type: object
+    required:
+      - id
+    properties:
+      accountValidationRequired:
+        type: boolean
+      addDiscountByDate:
+        type: boolean
+      addExtraValidation:
+        type: boolean
+      addInterestByDate:
+        type: boolean
+      additionalService:
+        type: string
+      advancedOptionDCMethod:
+        type: boolean
+      afterDayDCMethodValue:
+        type: integer
+        format: int32
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      allowDefineRetry:
+        type: boolean
+      allowExpireDateChange:
+        type: boolean
+      anotherBPExterior:
+        type: boolean
+      apiGateWayLoadType:
+        type: boolean
+      audit:
+        $ref: '#/definitions/Audit'
+      banRedBProcessing:
+        type: boolean
+      blackListValidation:
+        type: boolean
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      discountByDateSource:
+        type: string
+        description: catalogo fuente
+      discountByDateValue:
+        type: number
+      eachExecutionDCMethod:
+        type: boolean
+      fileFormatInput:
+        description: input for file format
+        $ref: '#/definitions/CFileFormat_1'
+      fileFormatOutput:
+        description: input for file format output
+        $ref: '#/definitions/CFileFormat_1'
+      fixedValueForDefault:
+        type: number
+      id:
+        type: integer
+        format: int32
+        description: Primary key
+      interestByDateSource:
+        type: string
+        description: catalogo fuente
+      newOrderReplacesOldOne:
+        type: boolean
+      onlineBankingLoadType:
+        type: boolean
+      onlyRegisterBeneficiary:
+        type: boolean
+      onlyRegisteredAuthorizedDebit:
+        type: boolean
+        description: solo se muestra para cobros
+      ordenTotalDCMethod:
+        type: boolean
+      orderExpires:
+        type: integer
+        format: int32
+      percentageValueForDefault:
+        type: number
+      requiresEncryptInput:
+        type: boolean
+      requiresEncryptOutput:
+        type: boolean
+      sectionComplete:
+        type: boolean
+      sftpLoadType:
+        type: boolean
+      sftpPath:
+        type: string
+      spiSciBceBProcessing:
+        type: boolean
+      swiftBPExterior:
+        type: boolean
+    title: CAgreementProcessing
+  CAgreementProduct:
+    type: object
+    required:
+      - id
+    properties:
+      active:
+        type: boolean
+      agreementInformation:
+        $ref: '#/definitions/CAgreementInformation'
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      idLocalBank:
+        type: string
+      productCode:
+        type: string
+      productType:
+        type: string
+    title: CAgreementProduct
+  CAgreementSecurity:
+    type: object
+    required:
+      - id
+    properties:
+      adminFullName:
+        type: string
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      audit:
+        $ref: '#/definitions/Audit'
+      bankManaged:
+        type: boolean
+      clientManaged:
+        type: boolean
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      mail:
+        type: string
+      maxAdminRolUser:
+        type: integer
+        format: int32
+      maxApproverRolUser:
+        type: integer
+        format: int32
+      maxOperatorRolUser:
+        type: integer
+        format: int32
+      minAdminRolUser:
+        type: integer
+        format: int32
+      minApproverRolUser:
+        type: integer
+        format: int32
+      minOperatorRolUser:
+        type: integer
+        format: int32
+      orderApproval:
+        $ref: '#/definitions/COrderApproval'
+      sectionComplete:
+        type: boolean
+    title: CAgreementSecurity
+  CAgreementTransactionMethod:
+    type: object
+    required:
+      - id
+    properties:
+      active:
+        type: boolean
+      agreementTxInformation:
+        $ref: '#/definitions/CAgreementTxInformation'
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      differentiatedAccount:
+        type: string
+      differentiatedMotive:
+        type: string
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      transactionMethod:
+        $ref: '#/definitions/CTransactionMethod'
+    title: CAgreementTransactionMethod
+  CAgreementTributaryData:
+    type: object
+    required:
+      - id
+    properties:
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      allowPrint:
+        type: boolean
+        description: Allow Print
+      audit:
+        $ref: '#/definitions/Audit'
+      backOfficePrint:
+        type: boolean
+        description: BackOffice Print
+      backupAccount:
+        type: string
+      beneficiaryCharge:
+        type: integer
+        format: int32
+      beneficiaryConcept:
+        type: string
+      chargeFrequency:
+        type: string
+      comissionChargeAccount:
+        type: string
+      comissionId:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      customTemplate:
+        type: boolean
+        description: Custom template to use
+      customTemplateValue:
+        type: string
+        description: Custom Template
+      genericTemplate:
+        type: boolean
+        description: Generic Template
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      includeCopyNumeration:
+        type: boolean
+        description: Include copy numeration
+      includeSpecificText:
+        type: boolean
+        description: Include specific text
+      individualCounterPrint:
+        type: boolean
+        description: Individual Counter Print
+      invoice:
+        type: boolean
+        description: Invoice
+      originalCopyIdentify:
+        type: boolean
+        description: Original Copy Identify
+      payerCharge:
+        type: integer
+        format: int32
+      payerConcept:
+        type: string
+      printValue:
+        type: integer
+        format: int32
+        description: Print Value
+      reportDocumentSendFrequency:
+        type: string
+        description: Catalog frequency
+      retentionReceipt:
+        type: boolean
+        description: retention receipt
+      saleNote:
+        type: boolean
+        description: Sale note
+      sectionComplete:
+        type: boolean
+      sendReportDocumentStatus:
+        type: boolean
+        description: Send report document status
+      specificText:
+        type: string
+        description: specific text
+    title: CAgreementTributaryData
+  CAgreementTxInformation:
+    type: object
+    required:
+      - id
+    properties:
+      addCopyNumeration:
+        type: boolean
+      addSpecificText:
+        type: boolean
+      agreement:
+        $ref: '#/definitions/CAgreement'
+      agreementTransactionMethods:
+        type: array
+        items:
+          $ref: '#/definitions/CAgreementTransactionMethod'
+      allowCollectionForItems:
+        type: boolean
+      allowPartialCollection:
+        type: boolean
+      allowPrintCopy:
+        type: boolean
+      allowPrintCopyValue:
+        type: integer
+        format: int32
+      allowSubscription:
+        type: boolean
+      audit:
+        $ref: '#/definitions/Audit'
+      backOfficeMasiveCheckDelivery:
+        type: boolean
+      backOfficePrint:
+        type: boolean
+      collectionWithInformation:
+        type: boolean
+      collectionWithoutInformation:
+        type: boolean
+      companyCode:
+        type: string
+      counterIndividualCheckDelivery:
+        type: boolean
+      countryCode:
+        type: string
+      customTemplate:
+        type: boolean
+      genericTemplate:
+        type: boolean
+      id:
+        type: integer
+        format: int64
+        description: Primary key
+      identifyOriginalCopy:
+        type: boolean
+      individualPrint:
+        type: boolean
+      maxSubscriptionValue:
+        type: number
+      minPartialCollection:
+        type: number
+      noCustomerInformation:
+        type: boolean
+      noValueInformation:
+        type: boolean
+      sectionComplete:
+        type: boolean
+      voucherText:
+        type: string
+    title: CAgreementTxInformation
+  CBank:
+    type: object
+    properties:
+      accountingAccounts:
+        type: array
+        items:
+          $ref: '#/definitions/CAccountingAccount'
+      address:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      bankCode:
+        type: integer
+        format: int32
+      city:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      countryId:
+        type: string
+      id:
+        type: integer
+        format: int32
+      interbankNetworks:
+        type: array
+        items:
+          $ref: '#/definitions/CInterbankNetwork'
+      isIntermediaryBank:
+        type: boolean
+      name:
+        type: string
+      type:
+        type: string
+    title: CBank
+  CBank_1:
+    type: object
+    properties:
+      accountingAccounts:
+        type: array
+        items:
+          $ref: '#/definitions/CAccountingAccount_1'
+      address:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      bankCode:
+        type: integer
+        format: int32
+      city:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      countryId:
+        type: string
+      interbankNetworks:
+        type: array
+        items:
+          $ref: '#/definitions/CInterbankNetwork_1'
+      isIntermediaryBank:
+        type: boolean
+      name:
+        type: string
+      type:
+        type: string
+    title: CBank_1
+  CContact:
+    type: object
+    properties:
+      address:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      email:
+        type: string
+      enterpriseCustomer:
+        $ref: '#/definitions/CEnterpriseCustomer'
+      enterpriseCustomerId:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+    title: CContact
+  CCountry:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      countryId:
+        type: string
+      countryName:
+        type: string
+      id:
+        type: string
+      isoCode:
+        type: string
+    title: CCountry
+  CCountryNetwork:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      countryId:
+        type: string
+      countryNetCode:
+        type: integer
+        format: int32
+      id:
+        type: integer
+        format: int32
+      networkCode:
+        type: string
+    title: CCountryNetwork
+  CCountryNetwork_1:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      countryId:
+        type: string
+      countryNetCode:
+        type: integer
+        format: int32
+      networkCode:
+        type: string
+    title: CCountryNetwork_1
+  CCountry_1:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      countryId:
+        type: string
+      countryName:
+        type: string
+      isoCode:
+        type: string
+    title: CCountry_1
+  CCutOffCycle:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      day:
+        type: string
+        description: Day Name
+      endHour:
+        type: string
+        description: End Hour
+      id:
+        type: string
+        description: Primary key
+      network:
+        $ref: '#/definitions/CNetwork'
+      networkCode:
+        type: string
+        description: Network Code
+      nextDate:
+        type: boolean
+        description: Flag to indicate next value date
+      startHour:
+        type: string
+        description: Start Hour
+    title: CCutOffCycle
+  CCutOffCycle_1:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      day:
+        type: string
+        description: Day Name
+      endHour:
+        type: string
+        description: End Hour
+      id:
+        type: string
+        description: Primary key
+      network:
+        $ref: '#/definitions/CNetwork_1'
+      networkCode:
+        type: string
+        description: Network Code
+      nextDate:
+        type: boolean
+        description: Flag to indicate next value date
+      startHour:
+        type: string
+        description: Start Hour
+    title: CCutOffCycle_1
+  CDocumentForServiceAgreement:
+    type: object
+    properties:
+      action:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      code:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      documentVariables:
+        type: array
+        items:
+          $ref: '#/definitions/CDocumentVariables'
+      fileNameTemplate:
+        type: string
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      pathTemplate:
+        type: string
+      required:
+        type: boolean
+      serviceId:
+        type: integer
+        format: int32
+    title: CDocumentForServiceAgreement
+  CDocumentVariables:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      dataToSearch:
+        type: string
+        example: ID_CATALOG_XX
+        description: >-
+          If it is needed to search on a generic table a specific data like in
+          CCATALOG Table
+      description:
+        type: string
+        example: A Channel to use in pricing
+        description: Description of the Document variable
+      documentServiceId:
+        type: integer
+        format: int32
+        description: DocumentServiceId Foreing key
+      entityField:
+        type: string
+        example: CCHANNEL_NAME
+        description: CFieldId equivalent to a Field of a Table
+      entityName:
+        type: string
+        example: CCHANNEL
+        description: CEntityId equivalent to a Table Name
+      id:
+        type: string
+        description: Primary key
+      isCatalog:
+        type: boolean
+        example: false
+        description: >-
+          Mark as false by default it is needed to search on a generic table a
+          specific data like in CCATALOG Table
+      name:
+        type: string
+        example: VALUE
+        description: Name of the Variable for Document insert it without spaces
+      orderEntityField:
+        type: string
+        example: ENTERPRISE_ID
+        description: CFieldId equivalent to a Field of a Order Table loaded
+      orderEntityName:
+        type: string
+        example: CORDER_HEADER
+        description: CEntityId equivalent to a Table Name of Order loaded
+    title: CDocumentVariables
+  CEconomicGroup:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      code:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      enterpriseCustomers:
+        type: array
+        items:
+          $ref: '#/definitions/CEnterpriseCustomer'
+      id:
+        type: string
+      name:
+        type: string
+    title: CEconomicGroup
+  CEconomicGroupDto:
+    type: object
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    title: CEconomicGroupDto
+  CEnterpriseCustomer:
+    type: object
+    properties:
+      accounts:
+        type: array
+        items:
+          $ref: '#/definitions/CRegisteredBankAccount'
+      active:
+        type: boolean
+      address:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      branchOffice:
+        type: string
+      brandName:
+        type: string
+      city:
+        type: string
+      companyCode:
+        type: string
+      contacts:
+        type: array
+        items:
+          $ref: '#/definitions/CContact'
+      countryCode:
+        type: string
+      customerIdentification:
+        type: string
+      economicGroup:
+        $ref: '#/definitions/CEconomicGroup'
+      economicGroupId:
+        type: string
+      email:
+        type: string
+      executive:
+        type: string
+      executiveAccount:
+        type: string
+      id:
+        type: string
+      identificationType:
+        type: string
+      logo:
+        type: string
+      mailingAddress:
+        type: string
+      marketNiche:
+        type: string
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      principalEnterprise:
+        type: boolean
+      relationsOfficer:
+        type: string
+      representatives:
+        type: array
+        items:
+          $ref: '#/definitions/CLegalRepresentative'
+      sector:
+        type: string
+        description: Contains value PUBLIC or PRIVATE
+      segment:
+        type: string
+      subSegment:
+        type: string
+      taxpayerType:
+        type: string
+        description: If sector is PRIVATE this fields contains SPECIAL or NO_SPECIAL
+      withholdingTaxes:
+        type: array
+        items:
+          $ref: '#/definitions/CEnterpriseWithholding'
+    title: CEnterpriseCustomer
+  CEnterpriseWithholding:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      code:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      enterpriseCustomer:
+        $ref: '#/definitions/CEnterpriseCustomer'
+      enterpriseCustomerId:
+        type: string
+      exemptWithholding:
+        type: boolean
+      id:
+        type: string
+      taxesId:
+        type: string
+      withholdingType:
+        type: string
+    title: CEnterpriseWithholding
+  CExecutive:
+    type: object
+    properties:
+      active:
+        type: boolean
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      email:
+        type: string
+      executiveCode:
+        type: string
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      personalIdentification:
+        type: string
+    title: CExecutive
+  CFieldFormat:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      comment:
+        type: string
+        description: Field comment
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      decimalSeparator:
+        type: string
+        description: Field decimal separator
+      defaultValue:
+        type: string
+        description: Field default value
+      description:
+        type: string
+        description: Field description
+      equivalentField:
+        type: string
+        description: Field equivalent
+      fieldCode:
+        type: string
+        description: Primary key
+      fieldFormatting:
+        type: string
+        description: Field formatting
+      fieldLength:
+        type: integer
+        format: int32
+        description: Length of the value
+      fieldNumber:
+        type: integer
+        format: int32
+        description: Order in which the fields are in the format file
+      fieldPosition:
+        type: integer
+        format: int64
+        description: Position or character number at which the referenced field starts
+      fieldType:
+        type: string
+        description: 'Format field type: Numeric, Alphanumeric, Alphabetic'
+        enum:
+          - NUMERIC
+          - ALPHANUMERIC
+          - ALPHABETIC
+      formatCode:
+        type: string
+      formatTemplate:
+        $ref: '#/definitions/CFormatTemplate_1'
+      id:
+        type: string
+      mandatory:
+        type: boolean
+      numberOfDecimals:
+        type: integer
+        format: int32
+        description: Field number of decimals
+      validation:
+        type: string
+        description: Field validation
+    title: CFieldFormat
+  CFieldFormat_1:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      comment:
+        type: string
+        description: Field comment
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      decimalSeparator:
+        type: string
+        description: Field decimal separator
+      defaultValue:
+        type: string
+        description: Field default value
+      description:
+        type: string
+        description: Field description
+      equivalentField:
+        type: string
+        description: Field equivalent
+      fieldCode:
+        type: string
+        description: Primary key
+      fieldFormatting:
+        type: string
+        description: Field formatting
+      fieldLength:
+        type: integer
+        format: int32
+        description: Length of the value
+      fieldNumber:
+        type: integer
+        format: int32
+        description: Order in which the fields are in the format file
+      fieldPosition:
+        type: integer
+        format: int64
+        description: Position or character number at which the referenced field starts
+      fieldType:
+        type: string
+        description: 'Format field type: Numeric, Alphanumeric, Alphabetic'
+        enum:
+          - NUMERIC
+          - ALPHANUMERIC
+          - ALPHABETIC
+      formatCode:
+        type: string
+      formatTemplate:
+        $ref: '#/definitions/CFormatTemplate_1'
+      id:
+        type: string
+      mandatory:
+        type: boolean
+      numberOfDecimals:
+        type: integer
+        format: int32
+        description: Field number of decimals
+      validation:
+        type: string
+        description: Field validation
+    title: CFieldFormat_1
+  CFileFormat:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      conversionFormat:
+        type: string
+        description: Conversion format
+        enum:
+          - TXT
+          - CSV
+      countryCode:
+        type: string
+      description:
+        type: string
+        description: Format file description
+        enum:
+          - ACTIVE
+          - INACTIVE
+      fieldSeparator:
+        type: string
+        description: Field separator
+      fileCode:
+        type: string
+        description: Primary key
+      formatTemplates:
+        type: array
+        items:
+          $ref: '#/definitions/CFormatTemplate_1'
+      hasFooter:
+        type: boolean
+        description: File has footer
+      hasHeader:
+        type: boolean
+        description: File has header
+      id:
+        type: string
+      inOut:
+        type: string
+        description: 'Format type in, out'
+        enum:
+          - IN_OUT
+      lineSeparator:
+        type: string
+        description: Line separator
+      name:
+        type: string
+        description: Format file name
+      paginated:
+        type: integer
+        format: int32
+        description: Format file status
+      rootFile:
+        type: boolean
+        description: 'File is root file, to don''t change the name'
+      status:
+        type: string
+        description: Format file status
+      type:
+        type: string
+        description: Format file type
+        enum:
+          - POSITIONAL
+          - SEPARATOR
+    title: CFileFormat
+  CFileFormat_1:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      conversionFormat:
+        type: string
+        description: Conversion format
+        enum:
+          - TXT
+          - CSV
+      countryCode:
+        type: string
+      description:
+        type: string
+        description: Format file description
+        enum:
+          - ACTIVE
+          - INACTIVE
+      fieldSeparator:
+        type: string
+        description: Field separator
+      fileCode:
+        type: string
+        description: Primary key
+      formatTemplates:
+        type: array
+        items:
+          $ref: '#/definitions/CFormatTemplate_1'
+      hasFooter:
+        type: boolean
+        description: File has footer
+      hasHeader:
+        type: boolean
+        description: File has header
+      id:
+        type: string
+      inOut:
+        type: string
+        description: 'Format type in, out'
+        enum:
+          - IN_OUT
+      lineSeparator:
+        type: string
+        description: Line separator
+      name:
+        type: string
+        description: Format file name
+      paginated:
+        type: integer
+        format: int32
+        description: Format file status
+      rootFile:
+        type: boolean
+        description: 'File is root file, to don''t change the name'
+      status:
+        type: string
+        description: Format file status
+      type:
+        type: string
+        description: Format file type
+        enum:
+          - POSITIONAL
+          - SEPARATOR
+    title: CFileFormat_1
+  CFormatTemplate:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      cfieldFormats:
+        type: array
+        items:
+          $ref: '#/definitions/CFieldFormat_1'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      file:
+        $ref: '#/definitions/CFileFormat_1'
+      fileCode:
+        type: string
+      formatCode:
+        type: string
+        description: Primary key
+      formatReference:
+        type: string
+        description: Format code to reference in recursive calls
+      formatType:
+        type: string
+        description: 'Format type if is Header, Item, Footer, Rule, Sub Item'
+        enum:
+          - HEADER
+          - ITEM
+          - FOOTER
+          - BLOCK
+      id:
+        type: string
+      isMultivalue:
+        type: boolean
+        description: Flag to indicate if exists several occurrences of this line
+      lineIdentifier:
+        type: string
+      lineType:
+        type: string
+        description: >-
+          Format type if is C - cabecera, P - Pie, D - Detalle or B - BlockThe
+          details are associated with: Item, Rule, Sub Item.
+      refFormatTemplateList:
+        type: array
+        items:
+          $ref: '#/definitions/CFormatTemplate_1'
+    title: CFormatTemplate
+  CFormatTemplate_1:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      cfieldFormats:
+        type: array
+        items:
+          $ref: '#/definitions/CFieldFormat_1'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      file:
+        $ref: '#/definitions/CFileFormat_1'
+      fileCode:
+        type: string
+      formatCode:
+        type: string
+        description: Primary key
+      formatReference:
+        type: string
+        description: Format code to reference in recursive calls
+      formatType:
+        type: string
+        description: 'Format type if is Header, Item, Footer, Rule, Sub Item'
+        enum:
+          - HEADER
+          - ITEM
+          - FOOTER
+          - BLOCK
+      id:
+        type: string
+      isMultivalue:
+        type: boolean
+        description: Flag to indicate if exists several occurrences of this line
+      lineIdentifier:
+        type: string
+      lineType:
+        type: string
+        description: >-
+          Format type if is C - cabecera, P - Pie, D - Detalle or B - BlockThe
+          details are associated with: Item, Rule, Sub Item.
+      refFormatTemplateList:
+        type: array
+        items:
+          $ref: '#/definitions/CFormatTemplate_1'
+    title: CFormatTemplate_1
+  CInterbankNetwork:
+    type: object
+    properties:
+      accountCode:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      bank:
+        $ref: '#/definitions/CBank'
+      bankCode:
+        type: integer
+        format: int32
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+        format: int32
+      interbankNetId:
+        type: integer
+        format: int32
+      networkCode:
+        type: string
+    title: CInterbankNetwork
+  CInterbankNetwork_1:
+    type: object
+    properties:
+      accountCode:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      bank:
+        $ref: '#/definitions/CBank_1'
+      bankCode:
+        type: integer
+        format: int32
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      interbankNetId:
+        type: integer
+        format: int32
+      networkCode:
+        type: string
+    title: CInterbankNetwork_1
+  CLegalRepresentative:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      email:
+        type: string
+      endOfValidity:
+        type: string
+        format: date-time
+      enterpriseCustomer:
+        $ref: '#/definitions/CEnterpriseCustomer'
+      enterpriseCustomerId:
+        type: string
+      id:
+        type: string
+      identification:
+        type: string
+      identificationType:
+        type: string
+      name:
+        type: string
+      position:
+        type: string
+    title: CLegalRepresentative
+  CNetwork:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      cutOffCycles:
+        type: array
+        items:
+          $ref: '#/definitions/CCutOffCycle'
+      id:
+        type: string
+      isLocalNetwork:
+        type: boolean
+      networkCode:
+        type: string
+      networkName:
+        type: string
+    title: CNetwork
+  CNetwork_1:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      cutOffCycles:
+        type: array
+        items:
+          $ref: '#/definitions/CCutOffCycle_1'
+      isLocalNetwork:
+        type: boolean
+      networkCode:
+        type: string
+      networkName:
+        type: string
+    title: CNetwork_1
+  COrderApproval:
+    type: object
+    properties:
+      active:
+        type: boolean
+      approvalType:
+        type: string
+        enum:
+          - BY_SIGNATURES
+          - BY_AMOUNTS_AND_LEVELS
+          - BY_AMOUNTS_AND_SIGNATURES
+      audit:
+        $ref: '#/definitions/Audit'
+      code:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+        format: int64
+      numberOfSignatures:
+        type: integer
+        format: int32
+      orderApprovalDefinitions:
+        type: array
+        items:
+          $ref: '#/definitions/COrderApprovalDefinition'
+    title: COrderApproval
+  COrderApprovalDefinition:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      availabilityOfApproval:
+        type: string
+        enum:
+          - HIERARCHICAL
+          - SIMULTANEOUS
+      combinations:
+        type: string
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      finalRange:
+        type: number
+      id:
+        type: integer
+        format: int64
+      initialRange:
+        type: number
+      levels:
+        type: array
+        items:
+          $ref: '#/definitions/COrderApprovalLevel'
+      orderApproval:
+        $ref: '#/definitions/COrderApproval'
+      signaturesRequired:
+        type: integer
+        format: int32
+      type:
+        type: string
+        enum:
+          - OR
+          - AND
+    title: COrderApprovalDefinition
+  COrderApprovalDto:
+    type: object
+    properties:
+      active:
+        type: boolean
+      approvalType:
+        type: string
+        enum:
+          - BY_SIGNATURES
+          - BY_AMOUNTS_AND_LEVELS
+          - BY_AMOUNTS_AND_SIGNATURES
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+        format: int64
+    title: COrderApprovalDto
+  COrderApprovalLevel:
+    type: object
+    properties:
+      active:
+        type: boolean
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      id:
+        type: integer
+        format: int64
+      level:
+        type: integer
+        format: int32
+      orderApprovalDefinition:
+        $ref: '#/definitions/COrderApprovalDefinition'
+    title: COrderApprovalLevel
+  CRegisteredBankAccount:
+    type: object
+    properties:
+      accountCode:
+        type: string
+      accountType:
+        type: string
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+      enterpriseCustomer:
+        $ref: '#/definitions/CEnterpriseCustomer'
+      enterpriseCustomerId:
+        type: string
+      id:
+        type: string
+      idLocalBank:
+        type: string
+    title: CRegisteredBankAccount
+  CServiceForAgreement:
+    type: object
+    properties:
+      account:
+        type: string
+      active:
+        type: boolean
+      audit:
+        $ref: '#/definitions/Audit'
+      automaticRenovation:
+        type: boolean
+      bankingReason:
+        type: string
+      code:
+        type: string
+      companyCode:
+        type: string
+      controlServiceHours:
+        type: boolean
+      countryCode:
+        type: string
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      schedule:
+        type: string
+      serviceConcept:
+        type: string
+      type:
+        $ref: '#/definitions/CTypeServiceAgreement'
+      validSince:
+        type: string
+        format: date-time
+      validUntil:
+        type: string
+        format: date-time
+    title: CServiceForAgreement
+  CTransactionMethod:
+    type: object
+    properties:
+      audit:
+        $ref: '#/definitions/Audit'
+      companyCode:
+        type: string
+      countryCode:
+        type: string
+      description:
+        type: string
+        description: Transaction method description
+      id:
+        type: integer
+        format: int32
+      method:
+        type: string
+        description: Transaction method
+      orientationTypeEnum:
+        type: string
+        enum:
+          - CO
+          - PA
+          - CON
+          - NOT
+          - TRANS
+          - SERV
+          - PS
+      reason:
+        type: string
+        description: Transaction reason
+      status:
+        type: string
+        description: Transaction status
+    title: CTransactionMethod
+  CTypeServiceAgreement:
+    type: object
+    required:
+      - id
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+        format: int32
+        description: Primary key
+      name:
+        type: string
+      orientationTypeEnum:
+        type: string
+        enum:
+          - CO
+          - PA
+          - CON
+          - NOT
+          - TRANS
+          - SERV
+          - PS
+    title: CTypeServiceAgreement
+  CatalogDto:
+    type: object
+    properties:
+      label:
+        type: string
+      value:
+        type: string
+    title: CatalogDto
+  DocumentFileResponse:
+    type: object
+    properties:
+      documentId:
+        type: string
+      errors:
+        type: array
+        items:
+          type: string
+      timeElapsed:
+        type: integer
+        format: int64
+    title: DocumentFileResponse
+  File:
+    type: object
+    properties:
+      absolute:
+        type: boolean
+      absoluteFile:
+        $ref: '#/definitions/File'
+      absolutePath:
+        type: string
+      canonicalFile:
+        $ref: '#/definitions/File'
+      canonicalPath:
+        type: string
+      directory:
+        type: boolean
+      file:
+        type: boolean
+      freeSpace:
+        type: integer
+        format: int64
+      hidden:
+        type: boolean
+      name:
+        type: string
+      parent:
+        type: string
+      parentFile:
+        $ref: '#/definitions/File'
+      path:
+        type: string
+      totalSpace:
+        type: integer
+        format: int64
+      usableSpace:
+        type: integer
+        format: int64
+    title: File
+  InputStream:
+    type: object
+    title: InputStream
+  Part:
+    type: object
+    title: Part
+  PrincipalEnterpriseRequestDto:
+    type: object
+    properties:
+      economicGroupId:
+        type: string
+      enterpriseId:
+        type: string
+    title: PrincipalEnterpriseRequestDto
+  Resource:
+    type: object
+    properties:
+      description:
+        type: string
+      file:
+        $ref: '#/definitions/File'
+      filename:
+        type: string
+      inputStream:
+        $ref: '#/definitions/InputStream'
+      open:
+        type: boolean
+      readable:
+        type: boolean
+      uri:
+        $ref: '#/definitions/URI'
+      url:
+        $ref: '#/definitions/URL'
+    title: Resource
+  ResponseEnterpriseAccountServiceAgreement:
+    type: object
+    properties:
+      accountServiceAgreemenId:
+        type: integer
+        format: int64
+      accountServiceAgreemenIdDescription:
+        type: string
+      accountServiceAgreemenIdProductCode:
+        type: string
+      accountServiceAgreemenIdProductType:
+        type: string
+      accountServiceAgreemenProductCurrency:
+        type: string
+    title: ResponseEnterpriseAccountServiceAgreement
+  ResponseEnterpriseAgreements:
+    type: object
+    properties:
+      enterpriseCustomerId:
+        type: string
+      enterpriseCustomerIdentification:
+        type: string
+      enterpriseCustomerLogo:
+        type: string
+      enterpriseCustomerName:
+        type: string
+      responseServiceAgreementsList:
+        type: array
+        items:
+          $ref: '#/definitions/ResponseServiceAgreements'
+    title: ResponseEnterpriseAgreements
+  ResponseOrderApproval:
+    type: object
+    properties:
+      approvalType:
+        type: string
+        enum:
+          - BY_SIGNATURES
+          - BY_AMOUNTS_AND_LEVELS
+          - BY_AMOUNTS_AND_SIGNATURES
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+        format: int64
+      numberOfSignatures:
+        type: integer
+        format: int32
+      orderApprovalDefinitions:
+        type: array
+        items:
+          $ref: '#/definitions/ResponseOrderApprovalDefinition'
+    title: ResponseOrderApproval
+  ResponseOrderApprovalDefinition:
+    type: object
+    properties:
+      availabilityOfApproval:
+        type: string
+        enum:
+          - HIERARCHICAL
+          - SIMULTANEOUS
+      combinations:
+        type: string
+      finalRange:
+        type: number
+      id:
+        type: integer
+        format: int64
+      initialRange:
+        type: number
+      levels:
+        type: array
+        items:
+          $ref: '#/definitions/ResponseOrderApprovalLevel'
+      signaturesRequired:
+        type: integer
+        format: int32
+      type:
+        type: string
+        enum:
+          - OR
+          - AND
+    title: ResponseOrderApprovalDefinition
+  ResponseOrderApprovalLevel:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      level:
+        type: integer
+        format: int32
+    title: ResponseOrderApprovalLevel
+  ResponseServiceAgreements:
+    type: object
+    properties:
+      agreementId:
+        type: integer
+        format: int64
+      responseEnterpriseAccountServiceAgreementList:
+        type: array
+        items:
+          $ref: '#/definitions/ResponseEnterpriseAccountServiceAgreement'
+      responseTransactionMethodForServiceAgreementList:
+        type: array
+        items:
+          $ref: '#/definitions/ResponseTransactionMethodForServiceAgreement'
+      serviceForAgreementAccountValidationRequired:
+        type: boolean
+      serviceForAgreementAllowPaymentAuthorizedInput:
+        type: boolean
+      serviceForAgreementCode:
+        type: string
+      serviceForAgreementFileFormat:
+        type: string
+      serviceForAgreementId:
+        type: integer
+        format: int32
+      serviceForAgreementName:
+        type: string
+      serviceForAgreementOrientationType:
+        type: string
+      serviceForAgreementType:
+        type: string
+    title: ResponseServiceAgreements
+  ResponseTransactionMethodForServiceAgreement:
+    type: object
+    properties:
+      transactionMethodServiceAgreemenDescription:
+        type: string
+      transactionMethodServiceAgreemenId:
+        type: integer
+        format: int32
+      transactionMethodServiceAgreemenMethod:
+        type: string
+      transactionMethodServiceAgreemenReason:
+        type: string
+    title: ResponseTransactionMethodForServiceAgreement
+  URI:
+    type: object
+    properties:
+      absolute:
+        type: boolean
+      authority:
+        type: string
+      fragment:
+        type: string
+      host:
+        type: string
+      opaque:
+        type: boolean
+      path:
+        type: string
+      port:
+        type: integer
+        format: int32
+      query:
+        type: string
+      rawAuthority:
+        type: string
+      rawFragment:
+        type: string
+      rawPath:
+        type: string
+      rawQuery:
+        type: string
+      rawSchemeSpecificPart:
+        type: string
+      rawUserInfo:
+        type: string
+      scheme:
+        type: string
+      schemeSpecificPart:
+        type: string
+      userInfo:
+        type: string
+    title: URI
+  URL:
+    type: object
+    properties:
+      authority:
+        type: string
+      content:
+        type: object
+      defaultPort:
+        type: integer
+        format: int32
+      file:
+        type: string
+      host:
+        type: string
+      path:
+        type: string
+      port:
+        type: integer
+        format: int32
+      protocol:
+        type: string
+      query:
+        type: string
+      ref:
+        type: string
+      userInfo:
+        type: string
+    title: URL
